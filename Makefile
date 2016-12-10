@@ -1,0 +1,4 @@
+default: love
+
+love:
+	love .
