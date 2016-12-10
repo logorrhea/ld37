@@ -12,8 +12,6 @@ assets = require('lib.cargo').init({
     }
 })
 
--- Store mousedata
-
 -- Load Classes
 require 'classes.furniture'
 require 'classes.room'
@@ -24,12 +22,12 @@ function love.load()
   local toilet = Furniture('toilet', 'toilet', vec(400, 400))
 
   world = tiny.world(
+    -- add the room first, so that it draws underneath everything else
+    room,
+
     -- entities
     clock,
     toilet,
-
-    -- add the room last, so that it draws underneath everything else
-    room,
 
    -- systems
     -- require 'systems.selectable',
@@ -38,26 +36,23 @@ function love.load()
   )
 
   -- Create low-res canvas to be scaled up later
-  love.graphics.setDefaultFilter('nearest', 'nearest', 0)
   -- local w, h = love.graphics.getDimensions()
   -- local x, y = 480, 320
   -- canvas = love.graphics.newCanvas(x, y)
   -- canvasScaleX = w/x
   -- canvasScaleY = h/y
 
+  love.graphics.setDefaultFilter('nearest', 'nearest', 0)
   love.graphics.setBackgroundColor(255, 255, 255)
 end
 
 function love.draw()
   local dt = love.timer.getDelta()
 
-  -- love.graphics.setCanvas(canvas)
   if world then
     world:update(dt)
   end
 
-  -- love.graphics.setCanvas()
-  -- love.graphics.draw(canvas, 0, 0, 0, canvasScaleX, canvasScaleY)
 end
 
 function love.keypressed(k, s, r)
@@ -97,30 +92,3 @@ function love.mousereleased(x, y, button)
     end
   end
 end
-
--- function love.mousepressed(x, y, button)
---   love.mouse.lastRelease = nil
---   love.mouse.lastPress = {
---     x = x,
---     y = y,
---     button = button
---   }
--- end
-
--- function love.mousereleased(x, y, button)
---   love.mouse.lastPress = nil
---   love.mouse.lastRelease = {
---     x = x,
---     y = y,
---     button = button,
---   }
--- end
-
--- function love.mousemoved(x, y, dx, dy)
---   love.mouse.lastMove = {
---     x = x,
---     y = y,
---     dx = dx,
---     dy = dy,
---   }
--- end

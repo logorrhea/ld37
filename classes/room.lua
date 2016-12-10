@@ -1,6 +1,6 @@
 Room = Class {
   init = function(self, spriteName)
-    self.sprite = assets[spriteName]
+    self.sprite = assets.images[spriteName]
   end,
 
   draw = function(self)
