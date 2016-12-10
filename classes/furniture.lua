@@ -1,7 +1,7 @@
 Furniture = Class {
   init = function(self, name, spriteName, pos)
     self.name = name
-    self.sprite = assets[spriteName]
+    self.sprite = assets.images[spriteName]
     self.pos = pos
   end,
 

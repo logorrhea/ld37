@@ -3,7 +3,14 @@ tiny = require 'lib.tiny'
 vec = require 'lib.vector'
 
 -- Load in assets
-assets = require('lib.cargo').init('assets')
+assets = require('lib.cargo').init({
+    dir = 'assets',
+    processors = {
+      ['images/'] = function(image, filename)
+        image:setFilter('nearest', 'nearest')
+      end
+    }
+})
 
 -- Store mousedata
 
@@ -24,20 +31,33 @@ function love.load()
     -- add the room last, so that it draws underneath everything else
     room,
 
-    -- systems
+   -- systems
     -- require 'systems.selectable',
     require 'systems.draggable',
     require 'systems.drawable'
   )
+
+  -- Create low-res canvas to be scaled up later
+  love.graphics.setDefaultFilter('nearest', 'nearest', 0)
+  -- local w, h = love.graphics.getDimensions()
+  -- local x, y = 480, 320
+  -- canvas = love.graphics.newCanvas(x, y)
+  -- canvasScaleX = w/x
+  -- canvasScaleY = h/y
 
   love.graphics.setBackgroundColor(255, 255, 255)
 end
 
 function love.draw()
   local dt = love.timer.getDelta()
+
+  -- love.graphics.setCanvas(canvas)
   if world then
     world:update(dt)
   end
+
+  -- love.graphics.setCanvas()
+  -- love.graphics.draw(canvas, 0, 0, 0, canvasScaleX, canvasScaleY)
 end
 
 function love.keypressed(k, s, r)
