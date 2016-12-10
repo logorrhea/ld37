@@ -14,11 +14,14 @@ require 'classes.room'
 function love.load()
   local room = Room('room-001')
   local clock = Furniture('clock', 'clock', vec(200, 200))
+  local toilet = Furniture('toilet', 'toilet', vec(400, 400))
 
   world = tiny.world(
     -- entities
     clock,
+    toilet,
 
+    -- add the room last, so that it draws underneath everything else
     room,
 
     -- systems
