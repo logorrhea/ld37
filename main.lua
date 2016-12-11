@@ -36,8 +36,12 @@ function love.load()
     room,
 
     -- entities
-    clock,
-    toilet,
+    -- clock,
+    -- toilet,
+    -- toilet,
+    Furniture('clock', 'clock', vec(200, 200)),
+    Furniture('toilet', 'toilet', vec(400, 200)),
+    Furniture('toilet', 'toilet', vec(600, 200)),
 
     -- systems
     require 'systems.draggable',

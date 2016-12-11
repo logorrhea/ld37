@@ -10,7 +10,10 @@ Furniture = Class {
 
     -- @TODO: Change to polyshapes?
     self.shape = love.physics.newRectangleShape(w*self.scale, h*self.scale)
-    self.fixture = love.physics.newFixture(self.body, self.shape, 0)
+
+    -- local density = math.min(1, w/64)
+    local density = 1
+    self.fixture = love.physics.newFixture(self.body, self.shape, density)
   end,
 
   bounds = function(self)
