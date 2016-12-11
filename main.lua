@@ -1,25 +1,35 @@
-Class = require 'lib.class'
-tiny = require 'lib.tiny'
-vec = require 'lib.vector'
-
--- Load in assets
-assets = require('lib.cargo').init({
-    dir = 'assets',
-    processors = {
-      ['images/'] = function(image, filename)
-        image:setFilter('nearest', 'nearest')
-      end
-    }
-})
-
--- Load Classes
-require 'classes.furniture'
-require 'classes.room'
-
 function love.load()
+
+  -- Require all the things
+  Class = require 'lib.class'
+  tiny = require 'lib.tiny'
+  vec = require 'lib.vector'
+
+
+  -- Load in assets
+  assets = require('lib.cargo').init({
+      dir = 'assets',
+      processors = {
+        ['images/'] = function(image, filename)
+          image:setFilter('nearest', 'nearest')
+        end
+      }
+  })
+
+
+  -- Load Classes
+  require 'classes.furniture'
+  require 'classes.room'
+
+  -- Init Fizzicks
+  love.physics.setMeter(64)
+  pworld = love.physics.newWorld(0, 0, true)
+
+  -- Create some stuff and junk
   local room = Room('room-001')
   local clock = Furniture('clock', 'clock', vec(200, 200))
   local toilet = Furniture('toilet', 'toilet', vec(400, 400))
+
 
   world = tiny.world(
     -- add the room first, so that it draws underneath everything else
@@ -29,8 +39,7 @@ function love.load()
     clock,
     toilet,
 
-   -- systems
-    -- require 'systems.selectable',
+    -- systems
     require 'systems.draggable',
     require 'systems.drawable'
   )
@@ -46,13 +55,24 @@ function love.load()
   love.graphics.setBackgroundColor(255, 255, 255)
 end
 
+function love.update(dt)
+  -- if pworld then
+  --   pworld:update(dt)
+  -- end
+
+  -- if processor then
+  --   processor:update(dt)
+  -- end
+end
+
 function love.draw()
   local dt = love.timer.getDelta()
-
+  if pworld then
+    pworld:update(dt)
+  end
   if world then
     world:update(dt)
   end
-
 end
 
 function love.keypressed(k, s, r)
